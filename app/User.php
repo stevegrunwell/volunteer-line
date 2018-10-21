@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Group;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -31,6 +33,18 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    /**
+     * Define the association to the Group model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany;
+     */
+    public function groups(): BelongsToMany
+    {
+        return $this->belongsToMany(Group::class)
+            ->withPivot('can_manage')
+            ->withTimestamps();
+    }
 
     /**
      * Retrieve the friendly, display name for a user.

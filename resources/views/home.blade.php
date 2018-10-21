@@ -1,23 +1,43 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                @include('messages')
+
+                <div class="card">
+                    <div class="card-header">{{ trans('dashboard.groupsHeading') }}</div>
+
+                    @if (empty($user->groups))
+                        <div class="card-body">
+                            <p>{{ trans('dashboard.emptyGroupsList') }}</p>
+
+                            <p class="mb-0">
+                                <a href="{{ route('group.create') }}" class="btn btn-primary">{{ trans('dashboard.createFirstGroupBtn') }}</a>
+                            </p>
                         </div>
-                    @endif
+                    @else
+                        <ul class="list-group list-group-flush">
+                            @foreach ($user->groups as $group)
+                                <li class="list-group-item">
+                                    @can ('update', $group)
+                                        <a href="{{ route('group.edit', ['group' => $group]) }}">{{ $group->name }}</a>
+                                    @else
+                                        {{ $group->name }}
+                                    @endcan
+                                </li>
+                            @endforeach
+                        </ul>
 
-                    You are logged in!
+                        <p class="card-body mb-0">
+                            <a href="{{ route('group.create') }}" class="btn btn-primary">{{ trans('dashboard.createGroupBtn') }}</a>
+                        </p>
+                    @endif
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </main>
+
 @endsection
