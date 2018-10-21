@@ -12,7 +12,8 @@
 Homestead.json
 Homestead.yaml
 npm-debug.log
+user-customizations.sh
+Vagrantfile
 yarn-error.log
 .env
 .phpunit.result.cache
-Vagrantfile
