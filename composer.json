@@ -40,11 +40,8 @@
         }
     },
     "scripts": {
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "@php artisan key:generate"
+        "post-install-cmd": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env') && system('php artisan key:generate');\""
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
@@ -57,7 +54,10 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.2"
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
