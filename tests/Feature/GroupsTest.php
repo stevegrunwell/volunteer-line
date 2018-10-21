@@ -52,7 +52,9 @@ class Groups extends TestCase
     public function testUsersCanEditGroup()
     {
         $user = factory(User::class)->create();
-        $group = $user->groups()->save(factory(Group::class)->make());
+        $group = $user->groups()->save(factory(Group::class)->make(), [
+            'can_manage' => true,
+        ]);
 
         $response = $this->actingAs($user)
             ->put(route('group.update', ['group' => $group]), array_merge($group->toArray(), [
@@ -70,7 +72,9 @@ class Groups extends TestCase
     public function testValidatesRequiredFieldsUponGroupEdit()
     {
         $user = factory(User::class)->create();
-        $group = $user->groups()->save(factory(Group::class)->make());
+        $group = $user->groups()->save(factory(Group::class)->make(), [
+            'can_manage' => true,
+        ]);
 
         $response = $this->actingAs($user)
             ->put(route('group.update', ['group' => $group]), array_merge($group->toArray(), [

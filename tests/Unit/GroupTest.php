@@ -18,4 +18,22 @@ class GroupTest extends TestCase
 
         $this->assertCount(2, $group->users);
     }
+
+    public function testScopeManageable()
+    {
+        $user = factory(User::class)->create();
+        $groups = $user->groups()->saveMany(factory(Group::class, 3)->make());
+        $user->groups()->updateExistingPivot($groups[1]->id, [
+            'can_manage' => true,
+        ]);
+
+        $this->assertSame(1, $user->groups()->manageable()->count());
+    }
+
+    public function testScopeManageableOnlyAppliesWhenUserPivotDataIsPresent()
+    {
+        factory(Group::class, 3)->create();
+
+        $this->assertSame(3, Group::manageable()->count());
+    }
 }
