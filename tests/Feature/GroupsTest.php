@@ -85,4 +85,14 @@ class Groups extends TestCase
             'name' => trans('validation.required', ['attribute' => 'name']),
         ]);
     }
+
+    public function testUsersCannotEditGroupWithoutAdministrativePrivileges()
+    {
+        $user = factory(User::class)->create();
+        $group = $user->groups()->save(factory(Group::class)->make());
+
+        $this->actingAs($user)
+            ->put(route('group.update', ['group' => $group]), $group->toArray())
+            ->assertForbidden();
+    }
 }

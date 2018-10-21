@@ -21,7 +21,13 @@
                     @else
                         <ul class="list-group list-group-flush">
                             @foreach ($user->groups as $group)
-                                <li class="list-group-item">{{ $group->name }}</li>
+                                <li class="list-group-item">
+                                    @can ('update', $group)
+                                        <a href="{{ route('group.edit', ['group' => $group]) }}">{{ $group->name }}</a>
+                                    @else
+                                        {{ $group->name }}
+                                    @endcan
+                                </li>
                             @endforeach
                         </ul>
 

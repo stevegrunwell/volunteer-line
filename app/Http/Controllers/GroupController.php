@@ -9,6 +9,11 @@ use Illuminate\View\View;
 
 class GroupController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Group::class);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -37,7 +42,9 @@ class GroupController extends Controller
         $user = $request->user();
         $group = new Group($request->all());
         $group->created_by = $user->id;
-        $user->groups()->save($group);
+        $user->groups()->save($group, [
+            'can_manage' => true,
+        ]);
 
         return redirect(route('home'))
             ->with('success', trans('group.create.success', ['name' => $group->name]));
