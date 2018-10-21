@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Group extends Model
 {
+    protected $casts = [
+        'created_by' => 'int',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
