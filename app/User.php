@@ -6,6 +6,7 @@ use App\Group;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -44,6 +45,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Group::class)
             ->withPivot('can_manage')
             ->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function phoneNumbers(): MorphToMany
+    {
+        return $this->morphToMany('App\PhoneNumber', 'callable');
     }
 
     /**

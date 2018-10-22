@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Group extends Model
 {
@@ -21,6 +22,14 @@ class Group extends Model
     protected $fillable = [
         'name',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function phoneNumbers(): MorphToMany
+    {
+        return $this->morphToMany('App\PhoneNumber', 'callable');
+    }
 
     /**
      * Define the association to the Group model.

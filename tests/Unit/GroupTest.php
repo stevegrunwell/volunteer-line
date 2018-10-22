@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Group;
+use App\PhoneNumber;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -11,7 +12,15 @@ class GroupTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testAssociationToGroups()
+    public function testRelationshipToPhoneNumbers()
+    {
+        $group = factory(Group::class)->create();
+        $group->phoneNumbers()->saveMany(factory(PhoneNumber::class, 2)->make());
+
+        $this->assertCount(2, $group->phoneNumbers);
+    }
+
+    public function testRelationshipToUsers()
     {
         $group = factory(Group::class)->create();
         $group->users()->saveMany(factory(User::class, 2)->make());
