@@ -16,5 +16,7 @@ return [
 
     'form' => [
         'name' => 'Name',
+        'phoneNumbers' => 'Phone Number(s)',
+        'phoneNumbersHelp' => 'Numbers should be in <a href="https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers" target="_blank" rel="noopener">E.164 format</a>. One phone number per line.',
     ],
 ];
