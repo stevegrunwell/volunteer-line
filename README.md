@@ -1,5 +1,9 @@
 # Volunteer Line
 
+[![Build Status](https://travis-ci.com/stevegrunwell/volunteer-line.svg?branch=master)](https://travis-ci.com/stevegrunwell/volunteer-line)
+[![License: MIT](https://img.shields.io/github/license/stevegrunwell/volunteer-line.svg)](https://github.com/stevegrunwell/volunteer-line/blob/master/LICENSE.md)
+
+
 This Laravel application acts as a router for phone calls to individual volunteers' phones.
 
 The goal of the application is to make it easier for "grass roots" volunteer campaigns to connect people in need with volunteers. By acting as a call forwarder, members of the community could call a single number and automatically be connected to one of the currently-active volunteers.
