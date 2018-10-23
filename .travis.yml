@@ -1,0 +1,24 @@
+language: php
+dist: trusty
+
+php:
+  - 7.2
+
+matrix:
+  fast_finish: true
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+    - $HOME/.npm
+
+install:
+  - phpenv config-rm xdebug.ini
+  - composer install --no-interaction --prefer-dist
+  - npm install && npm run production
+
+script:
+  - vendor/bin/phpunit
+
+notifications:
+  email: false
