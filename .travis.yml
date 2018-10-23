@@ -10,6 +10,7 @@ matrix:
 cache:
   directories:
     - $HOME/.composer/cache/files
+    - $HOME/.npm
 
 install:
   - phpenv config-rm xdebug.ini
