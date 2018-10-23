@@ -7,6 +7,10 @@ php:
 matrix:
   fast_finish: true
 
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
 install:
   - phpenv config-rm xdebug.ini
   - composer install --no-interaction --prefer-dist
