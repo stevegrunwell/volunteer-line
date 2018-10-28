@@ -29,7 +29,11 @@ class Twilio implements TelephonyProvider
      */
     public function groupDial(Collection $numbers)
     {
-        $this->twiml->dial($numbers->toArray());
+        $dial = $this->twiml->dial();
+
+        $numbers->take(10)->each(function ($number) use ($dial) {
+            $dial->client($number->number);
+        });
 
         return $this->twiml;
     }
