@@ -11,7 +11,7 @@ class Twilio implements TelephonyProvider
     /**
      * @var \Twilio\Twiml $twiml
      */
-    public $twiml;
+    private $twiml;
 
     /**
      * Create a new Twilio response.
