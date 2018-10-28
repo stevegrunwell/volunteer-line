@@ -3,6 +3,7 @@
 namespace App\Services\Telephony;
 
 use App\Contracts\TelephonyProvider;
+use Illuminate\Database\Eloquent\Collection;
 use Twilio\Twiml;
 
 class Twilio implements TelephonyProvider
@@ -21,13 +22,14 @@ class Twilio implements TelephonyProvider
     }
 
     /**
-     * Forward a call to the given number.
+     * Ring multiple numbers at the same time and connect the inbound call to the first number
+     * to pick up.
      *
-     * @param string $number The phone number to forward the call to.
+     * @param Collection $numbers The PhoneNumber instances to dial.
      */
-    public function forwardTo(string $number)
+    public function groupDial(Collection $numbers)
     {
-        $this->twiml->dial($number);
+        $this->twiml->dial($numbers->toArray());
 
         return $this->twiml;
     }

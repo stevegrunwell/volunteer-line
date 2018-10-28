@@ -2,12 +2,15 @@
 
 namespace App\Contracts;
 
+use Illuminate\Database\Eloquent\Collection;
+
 interface TelephonyProvider
 {
     /**
-     * Forward a call to the given number.
+     * Ring multiple numbers at the same time and connect the inbound call to the first number
+     * to pick up.
      *
-     * @param string $number The phone number to forward the call to.
+     * @param \Illuminate\Database\Eloquent\Collection $numbers The PhoneNumber instances to dial.
      */
-    public function forwardTo(string $number);
+    public function groupDial(Collection $numbers);
 }
