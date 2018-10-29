@@ -10,6 +10,20 @@ The goal of the application is to make it easier for "grass roots" volunteer cam
 
 For example, a "Get out the Vote" group could sign-up volunteers to drive members of the community to the polls on Election Day. A rider would only need to call a single number, and the application will connect them with the next available volunteer.
 
+## Installation
+
+Volunteer Line is written atop the [Laravel PHP framework](https://laravel.com), and has [fairly standard requirements](https://laravel.com/docs/5.7/installation#installation):
+
+* PHP >= 7.1.3
+* OpenSSL PHP Extension
+* PDO PHP Extension
+* Mbstring PHP Extension
+* Tokenizer PHP Extension
+* XML PHP Extension
+* Ctype PHP Extension
+* JSON PHP Extension
+
+
 ## Contributing
 
 If you're interested in contributing to the development of Volunteer Line, please see [the contributing guidelines](CONTRIBUTING.md) for instructions on how to get started.
