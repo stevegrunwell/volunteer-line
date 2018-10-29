@@ -28,6 +28,23 @@ class GroupTest extends TestCase
         $this->assertCount(2, $group->users);
     }
 
+    public function testGetKeyAttribute()
+    {
+        $group = factory(Group::class)->make();
+
+        $this->assertSame($group->getAttributes()['key'], $group->key);
+    }
+
+    public function testGetKeyAttributeGeneratesKey()
+    {
+        $group = factory(Group::class)->make();
+        $group->setRawAttributes([
+            'key' => null,
+        ]);
+
+        $this->assertNotEmpty($group->key, 'A key should have been generated.');
+    }
+
     public function testScopeManageable()
     {
         $user = factory(User::class)->create();
@@ -44,5 +61,12 @@ class GroupTest extends TestCase
         factory(Group::class, 3)->create();
 
         $this->assertSame(3, Group::manageable()->count());
+    }
+
+    public function testGenerateKey()
+    {
+        $key = Group::generateKey();
+
+        $this->assertSame(32, strlen($key), 'Keys should be 32 characters long');
     }
 }

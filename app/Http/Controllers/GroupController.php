@@ -42,6 +42,7 @@ class GroupController extends Controller
 
         $user = $request->user();
         $group = new Group($request->all());
+        $group->key = Group::generateKey();
         $group->created_by = $user->id;
         $user->groups()->save($group, [
             'can_manage' => true,

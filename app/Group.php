@@ -44,6 +44,22 @@ class Group extends Model
     }
 
     /**
+     * Retrieve the "key" attribute.
+     *
+     * If the key is empty, one will be generated automatically.
+     *
+     * @return string The 32-character key.
+     */
+    public function getKeyAttribute(): string
+    {
+        if (empty($this->attributes['key'])) {
+            $this->attributes['key'] = self::generateKey();
+        }
+
+        return $this->attributes['key'];
+    }
+
+    /**
      * Scope the query to groups the given user can manage.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
@@ -59,5 +75,15 @@ class Group extends Model
         return $query->when($userRelationshipLoaded, function ($query) {
             return $query->where('group_user.can_manage', true);
         });
+    }
+
+    /**
+     * Generate a new key for the Group.
+     *
+     * @return string The 32-character key.
+     */
+    public static function generateKey(): string
+    {
+        return str_random(32);
     }
 }
