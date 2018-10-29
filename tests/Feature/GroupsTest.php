@@ -112,6 +112,25 @@ class Groups extends TestCase
         $this->assertCount(2, $group->phoneNumbers);
     }
 
+    public function testPhoneNumbersCanBeRemoved()
+    {
+        $user = factory(User::class)->create();
+        $group = $user->groups()->save(factory(Group::class)->make(), [
+            'can_manage' => true,
+        ]);
+        $number = $group->phoneNumbers()->save(factory(PhoneNumber::class)->create());
+
+        $response = $this->actingAs($user)
+            ->put(route('group.update', ['group' => $group]), array_merge($group->toArray(), [
+                'phone_numbers' => '+15558675309',
+            ]));
+
+        $group->refresh();
+
+        $this->assertCount(1, $group->phoneNumbers);
+        $this->assertSame('+15558675309', $group->phoneNumbers->first()->number);
+    }
+
     public function testUsersCannotEditGroupWithoutAdministrativePrivileges()
     {
         $user = factory(User::class)->create();

@@ -101,9 +101,16 @@ class GroupController extends Controller
         $group->update($request->all());
 
         $phoneNumbers = $this->parsePhoneNumbersFromTextarea($request->input('phone_numbers'));
+        $preserved = $group->phoneNumbers()->whereIn('number', $phoneNumbers)->get();
 
-        foreach ($phoneNumbers as $number) {
-            $group->phoneNumbers()->firstOrCreate(['number' => $number]);
+        // Remove anything that was present before but isn't anymore.
+        if (! empty($preserved)) {
+            $group->phoneNumbers()->sync($preserved->pluck('id')->toArray());
+        }
+
+        // Save any new phone numbers.
+        foreach (array_diff($phoneNumbers, $preserved->pluck('number')->toArray()) as $number) {
+            $group->phoneNumbers()->save(PhoneNumber::firstOrNew(['number' => $number]));
         }
 
         return redirect(route('home'))
