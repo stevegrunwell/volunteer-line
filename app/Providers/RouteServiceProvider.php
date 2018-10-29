@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Group;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -23,9 +24,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+
+        Route::bind('groupKey', function ($value) {
+            return Group::where('key', $value)->first() ?? abort(404);
+        });
     }
 
     /**
