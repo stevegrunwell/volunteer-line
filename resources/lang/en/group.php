@@ -12,6 +12,15 @@ return [
         'pageTitle' => 'Edit Group',
         'saveButton' => 'Update Group',
         'success' => '":name" has been updated!',
+        'tabs' => [
+            'settings' => 'Settings',
+            'members' => 'Members',
+        ],
+        'members' => [
+            'nameHeading' => 'Name',
+            'phoneNumberHeading' => 'Phone Number(s)',
+            'you' => 'You',
+        ],
     ],
 
     'form' => [
