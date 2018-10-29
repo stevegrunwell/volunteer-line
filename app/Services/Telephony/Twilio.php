@@ -6,7 +6,7 @@ use App\Contracts\TelephonyProvider;
 use Illuminate\Support\Collection;
 use Twilio\Twiml;
 
-class Twilio implements TelephonyProvider
+class Twilio extends AbstractTelephonyProvider
 {
     /**
      * @var \Twilio\Twiml $twiml
@@ -29,7 +29,9 @@ class Twilio implements TelephonyProvider
      */
     public function groupDial(Collection $numbers)
     {
-        $dial = $this->twiml->dial();
+        $dial = $this->twiml->dial(array_filter([
+            'callerId' => $this->callerIdNumber,
+        ]));
 
         $numbers->take(10)->each(function ($number) use ($dial) {
             $dial->number($number->number);

@@ -12,7 +12,7 @@ class TelephonyController extends Controller
 {
     public function twilio(Request $request, Group $group, Twilio $twilio)
     {
-        $group->load('users.phoneNumbers');
+        $twilio->setCallerIdNumber($request->get('to'));
 
         return response($twilio->groupDial($group->getAvailableNumbers()))
             ->header('Content-Type', 'application/xml');
