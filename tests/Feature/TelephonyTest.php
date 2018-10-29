@@ -26,6 +26,7 @@ class TelephonyTest extends TestCase
         ]);
 
         $response->assertHeader('Content-Type', 'application/xml');
+        $response->assertSee('<Dial callerId="' . $phoneNumber->number . '">');
 
         foreach ($group->getAvailableNumbers() as $number) {
             $response->assertSee('<Number>' . $number->number . '</Number>');
