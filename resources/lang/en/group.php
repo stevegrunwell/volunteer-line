@@ -12,9 +12,20 @@ return [
         'pageTitle' => 'Edit Group',
         'saveButton' => 'Update Group',
         'success' => '":name" has been updated!',
+        'tabs' => [
+            'settings' => 'Settings',
+            'members' => 'Members',
+        ],
+        'members' => [
+            'nameHeading' => 'Name',
+            'phoneNumberHeading' => 'Phone Number(s)',
+            'you' => 'You',
+        ],
     ],
 
     'form' => [
         'name' => 'Name',
+        'phoneNumbers' => 'Phone Number(s)',
+        'phoneNumbersHelp' => 'Numbers should be in <a href="https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers" target="_blank" rel="noopener">E.164 format</a>. One phone number per line.',
     ],
 ];

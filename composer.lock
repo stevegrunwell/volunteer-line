@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "094661615d172a8cd51b276c0ce1a437",
+    "content-hash": "56d693b0cc786b320acd414ad6bb2002",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2310,6 +2310,52 @@
             "time": "2017-11-27T11:13:29+00:00"
         },
         {
+            "name": "twilio/sdk",
+            "version": "5.24.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twilio/twilio-php.git",
+                "reference": "2dd9c1fa804c0ad0c91cfa2eec152ca24f40efc9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/2dd9c1fa804c0ad0c91cfa2eec152ca24f40efc9",
+                "reference": "2dd9c1fa804c0ad0c91cfa2eec152ca24f40efc9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "apigen/apigen": "^4.1",
+                "phpunit/phpunit": "4.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Twilio\\": "Twilio/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Twilio API Team",
+                    "email": "api@twilio.com"
+                }
+            ],
+            "description": "A PHP wrapper for Twilio's API",
+            "homepage": "http://github.com/twilio/twilio-php",
+            "keywords": [
+                "api",
+                "sms",
+                "twilio"
+            ],
+            "time": "2018-10-16T00:12:03+00:00"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v2.5.1",
             "source": {
@@ -4077,6 +4123,55 @@
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
             "time": "2016-10-03T07:35:21+00:00"
+        },
+        {
+            "name": "spatie/array-to-xml",
+            "version": "2.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/array-to-xml.git",
+                "reference": "2b01cb1a04b4b65f0db03cd8a78df4b978fe5cd7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/2b01cb1a04b4b65f0db03cd8a78df4b978fe5cd7",
+                "reference": "2b01cb1a04b4b65f0db03cd8a78df4b978fe5cd7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^6.3",
+                "spatie/phpunit-snapshot-assertions": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ArrayToXml\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://murze.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Convert an array to xml",
+            "homepage": "https://github.com/spatie/array-to-xml",
+            "keywords": [
+                "array",
+                "convert",
+                "xml"
+            ],
+            "time": "2018-09-17T11:45:05+00:00"
         },
         {
             "name": "symfony/yaml",

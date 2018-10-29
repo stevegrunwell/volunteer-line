@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\PhoneNumber;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -36,15 +37,23 @@ class GroupController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|max:255'
+            'name' => 'required|max:255',
         ]);
 
         $user = $request->user();
         $group = new Group($request->all());
+        $group->key = Group::generateKey();
         $group->created_by = $user->id;
         $user->groups()->save($group, [
             'can_manage' => true,
         ]);
+
+        $phoneNumbers = $this->parsePhoneNumbersFromTextarea($request->input('phone_numbers'));
+        foreach ($phoneNumbers as $number) {
+            $group->phoneNumbers()->save(new PhoneNumber([
+                'number' => $number,
+            ]));
+        }
 
         return redirect(route('home'))
             ->with('success', trans('group.create.success', ['name' => $group->name]));
@@ -86,10 +95,23 @@ class GroupController extends Controller
     public function update(Request $request, Group $group): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|max:255'
+            'name' => 'required|max:255',
         ]);
 
         $group->update($request->all());
+
+        $phoneNumbers = $this->parsePhoneNumbersFromTextarea($request->input('phone_numbers'));
+        $preserved = $group->phoneNumbers()->whereIn('number', $phoneNumbers)->get();
+
+        // Remove anything that was present before but isn't anymore.
+        if (! empty($preserved)) {
+            $group->phoneNumbers()->sync($preserved->pluck('id')->toArray());
+        }
+
+        // Save any new phone numbers.
+        foreach (array_diff($phoneNumbers, $preserved->pluck('number')->toArray()) as $number) {
+            $group->phoneNumbers()->save(PhoneNumber::firstOrNew(['number' => $number]));
+        }
 
         return redirect(route('home'))
             ->with('success', trans('group.edit.success', ['name' => $group->name]));
@@ -104,5 +126,19 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         //
+    }
+
+    /**
+     * Given a 'phone_numbers' textarea, parse out phone numbers and return them as an array.
+     *
+     * @param string $textarea The contents of the textarea.
+     *
+     * @return array An array of detected phone numbers
+     */
+    protected function parsePhoneNumbersFromTextarea(string $textarea): array
+    {
+        $lines = explode(PHP_EOL, $textarea);
+
+        return array_values(array_filter(array_map('trim', $lines)));
     }
 }

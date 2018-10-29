@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection;
 
 class Group extends Model
 {
@@ -23,6 +25,14 @@ class Group extends Model
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function phoneNumbers(): MorphToMany
+    {
+        return $this->morphToMany('App\PhoneNumber', 'callable');
+    }
+
+    /**
      * Define the association to the Group model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -32,6 +42,39 @@ class Group extends Model
         return $this->belongsToMany(User::class)
             ->withPivot('can_manage')
             ->withTimestamps();
+    }
+
+    /**
+     * Retrieve available phone numbers for group members.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAvailableNumbers(): Collection
+    {
+        $this->loadMissing('users.phoneNumbers:phone_numbers.id,phone_numbers.number');
+        $numbers = collect([]);
+
+        foreach ($this->users as $user) {
+            $numbers = $numbers->concat($user->phoneNumbers);
+        }
+
+        return $numbers;
+    }
+
+    /**
+     * Retrieve the "key" attribute.
+     *
+     * If the key is empty, one will be generated automatically.
+     *
+     * @return string The 32-character key.
+     */
+    public function getKeyAttribute(): string
+    {
+        if (empty($this->attributes['key'])) {
+            $this->attributes['key'] = self::generateKey();
+        }
+
+        return $this->attributes['key'];
     }
 
     /**
@@ -50,5 +93,15 @@ class Group extends Model
         return $query->when($userRelationshipLoaded, function ($query) {
             return $query->where('group_user.can_manage', true);
         });
+    }
+
+    /**
+     * Generate a new key for the Group.
+     *
+     * @return string The 32-character key.
+     */
+    public static function generateKey(): string
+    {
+        return str_random(32);
     }
 }
