@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection;
 
 class Group extends Model
 {
@@ -41,6 +42,23 @@ class Group extends Model
         return $this->belongsToMany(User::class)
             ->withPivot('can_manage')
             ->withTimestamps();
+    }
+
+    /**
+     * Retrieve available phone numbers for group members.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAvailableNumbers(): Collection
+    {
+        $this->loadMissing('users.phoneNumbers:phone_numbers.id,phone_numbers.number');
+        $numbers = collect([]);
+
+        foreach ($this->users as $user) {
+            $numbers = $numbers->concat($user->phoneNumbers);
+        }
+
+        return $numbers;
     }
 
     /**

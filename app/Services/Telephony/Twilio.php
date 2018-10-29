@@ -3,7 +3,7 @@
 namespace App\Services\Telephony;
 
 use App\Contracts\TelephonyProvider;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Twilio\Twiml;
 
 class Twilio implements TelephonyProvider
@@ -25,14 +25,14 @@ class Twilio implements TelephonyProvider
      * Ring multiple numbers at the same time and connect the inbound call to the first number
      * to pick up.
      *
-     * @param Collection $numbers The PhoneNumber instances to dial.
+     * @param \Illuminate\Support\Collection $numbers The PhoneNumber instances to dial.
      */
     public function groupDial(Collection $numbers)
     {
         $dial = $this->twiml->dial();
 
         $numbers->take(10)->each(function ($number) use ($dial) {
-            $dial->client($number->number);
+            $dial->number($number->number);
         });
 
         return $this->twiml;

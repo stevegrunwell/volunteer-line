@@ -28,6 +28,23 @@ class GroupTest extends TestCase
         $this->assertCount(2, $group->users);
     }
 
+    public function testGetAvailableNumbers()
+    {
+        $group = factory(Group::class)->create();
+        $users = $group->users()->saveMany(factory(User::class, 2)->make());
+        $numbers = [];
+        $users->each(function ($user) use (&$numbers) {
+            $numbers[] = $user->phoneNumbers()->save(factory(PhoneNumber::class)->make())->number;
+        });
+
+        sort($numbers);
+
+        $this->assertEquals(
+            $numbers,
+            $group->getAvailableNumbers()->sortBy('number')->pluck('number')->toArray()
+        );
+    }
+
     public function testGetKeyAttribute()
     {
         $group = factory(Group::class)->make();

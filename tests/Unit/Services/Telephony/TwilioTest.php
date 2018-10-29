@@ -18,7 +18,7 @@ class TwilioTest extends TestCase
 
         $this->assertXmlEqualsArray([
             'Dial' => [
-                'Client' => $numbers->pluck('number')->toArray(),
+                'Number' => $numbers->pluck('number')->toArray(),
             ],
         ], $twilio->groupDial($numbers));
     }
@@ -30,7 +30,7 @@ class TwilioTest extends TestCase
 
         $this->assertXmlEqualsArray([
             'Dial' => [
-                'Client' => $numbers->take(10)->pluck('number')->toArray(),
+                'Number' => $numbers->take(10)->pluck('number')->toArray(),
             ],
         ], $twilio->groupDial($numbers));
     }
